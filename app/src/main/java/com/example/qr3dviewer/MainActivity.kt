@@ -107,14 +107,14 @@ class MainActivity : AppCompatActivity() {
                 )
             } catch (exc: Exception) {
                 Log.e(TAG, "Use case binding failed", exc)
-                Toast.makeText(this, "Camera initialization failed", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.camera_init_failed), Toast.LENGTH_SHORT).show()
             }
 
         }, ContextCompat.getMainExecutor(this))
     }
 
     private fun processQRCode(qrCode: String) {
-        Toast.makeText(this, "QR Code detected: $qrCode", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, getString(R.string.qr_code_detected, qrCode), Toast.LENGTH_SHORT).show()
 
         // Stop camera to save resources
         cameraProvider?.unbindAll()
@@ -158,10 +158,11 @@ class MainActivity : AppCompatActivity() {
                         // Load from URL (implementation depends on your server setup)
                         Toast.makeText(
                             this@MainActivity,
-                            "Loading from URL: ${modelInfo.modelId}",
+                            getString(R.string.loading_from_url, modelInfo.modelId),
                             Toast.LENGTH_SHORT
                         ).show()
-                        // loadModelFromUrl(modelInfo.modelId)
+                        // For now, fallback to default model
+                        loadDefaultModel()
                     }
                     ModelType.ASSET -> {
                         // Load from assets
@@ -178,8 +179,15 @@ class MainActivity : AppCompatActivity() {
             }
         } catch (e: Exception) {
             Log.e(TAG, "Error loading 3D model", e)
-            Toast.makeText(this, "Error loading 3D model: ${e.message}", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.error_loading_model, e.message), Toast.LENGTH_LONG).show()
             returnToScanner()
+        }
+    }
+
+    private fun loadDefaultModel() {
+        // Create a simple colored cube as default when no model file is available
+        modelNode?.let {
+            sceneView.addChild(it)
         }
     }
 
@@ -244,7 +252,7 @@ class MainActivity : AppCompatActivity() {
             if (allPermissionsGranted()) {
                 startCamera()
             } else {
-                Toast.makeText(this, "Camera permission is required for QR scanning", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.camera_permission_required), Toast.LENGTH_LONG).show()
                 finish()
             }
         }

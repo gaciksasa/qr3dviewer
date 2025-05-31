@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">QR 3D Viewer</string>
+    <string name="qr_scan_instruction">Point camera at QR code</string>
+    <string name="back_to_scanner">Back to Scanner</string>
+    <string name="camera_permission_required">Camera permission is required for QR scanning</string>
+    <string name="camera_init_failed">Camera initialization failed</string>
+    <string name="qr_code_detected">QR Code detected: %1$s</string>
+    <string name="loading_from_url">Loading from URL: %1$s</string>
+    <string name="error_loading_model">Error loading 3D model: %1$s</string>
 </resources>
